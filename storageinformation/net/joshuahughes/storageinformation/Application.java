@@ -128,7 +128,7 @@ public class Application extends JFrame
 	{
 		int dim = 32;
 		try {
-			addColumnImage = ImageIO.read(new File("icons/column.png")).getScaledInstance(dim, dim, BufferedImage.SCALE_SMOOTH);
+			addColumnImage = ImageIO.read(new File("icons/addcolumn.png")).getScaledInstance(dim, dim, BufferedImage.SCALE_SMOOTH);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

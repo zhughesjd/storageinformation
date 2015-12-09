@@ -28,7 +28,7 @@ public class AddColumn extends Operation{
 	private static final long serialVersionUID = -5376384191644585428L;
 	private static final String customLabel = "Custom...";
 	public AddColumn(StorageTableModel model) {
-		super("Add Column","icons/add_column.png",model );
+		super( model );
 	}
 
 	@Override
