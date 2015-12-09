@@ -4,7 +4,7 @@ import java.io.File;
 
 public class UsableSpace extends ComputedValueField<Long>{
 	@Override
-	protected Long compute(File drive) {
+	public Long compute(File drive) {
 		return drive.getUsableSpace();
 	}
 }

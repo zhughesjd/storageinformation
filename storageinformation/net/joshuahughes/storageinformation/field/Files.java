@@ -4,11 +4,12 @@ import java.io.File;
 
 public class Files extends ComputedValueField<String>{
 	@Override
-	protected String compute(File candidate) {
-		if(candidate.isFile())
+	public String compute(File candidate) {
+		File[] files = candidate.listFiles();
+		if(candidate.isFile() || files == null)
 			return candidate.getAbsolutePath();
 		StringBuilder builder = new StringBuilder();
-		for(File child : candidate.listFiles())
+		for(File child : files)
 			builder.append(compute(child)+",");
 		return builder.toString();
 	}

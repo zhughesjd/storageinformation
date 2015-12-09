@@ -27,12 +27,10 @@ public class AddColumn extends Operation{
 	 */
 	private static final long serialVersionUID = -5376384191644585428L;
 	private static final String customLabel = "Custom...";
-	public AddColumn(StorageTableModel model) {
-		super( model );
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		StorageTableModel model = (StorageTableModel) application.getTable().getModel();
 		ArrayList<Object> list  = new ArrayList<Object>();
 		for(ComputedValueField<?> field : ComputedValueField.computedFields)
 			if(!model.getColumnIdentifiers( ).contains( field ))

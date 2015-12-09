@@ -8,16 +8,16 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 
-import net.joshuahughes.storageinformation.StorageTableModel;
+import net.joshuahughes.storageinformation.Application;
 
 public abstract class Operation extends AbstractAction{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2999523167659139366L;
-	StorageTableModel model;
+	protected Application application;
 
-	public Operation(StorageTableModel model)
+	public Operation()
 	{
 		String name = getClass().getSimpleName();
         putValue(Action.NAME,name);
@@ -29,6 +29,8 @@ public abstract class Operation extends AbstractAction{
         {
 			e.printStackTrace();
 		}
-        this.model = model;
+	}
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class LastModified extends ComputedValueField<Date>{
 	@Override
-	protected Date compute(File drive) {
+	public Date compute(File drive) {
 		return new Date(drive.lastModified());
 	}
 }

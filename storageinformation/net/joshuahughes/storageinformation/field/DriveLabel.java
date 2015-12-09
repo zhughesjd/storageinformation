@@ -6,7 +6,7 @@ import javax.swing.filechooser.FileSystemView;
 
 public class DriveLabel extends ComputedValueField<String>{
 	@Override
-	protected String compute(File drive) {
+	public String compute(File drive) {
 		FileSystemView view = FileSystemView.getFileSystemView();
 		String name = view.getSystemDisplayName(drive);
 		if (name == null) { return null; }

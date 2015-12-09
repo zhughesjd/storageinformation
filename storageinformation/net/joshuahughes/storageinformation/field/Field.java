@@ -29,10 +29,10 @@ public class Field
     @SuppressWarnings( "unchecked" )
     public static <T> T fromString(Field field,String value)
     {
-        if(defaultTypes.contains( field.getClass( ) ))
+        if(defaultTypes.contains( field.getType() ))
             try
             {
-                return (T) field.getClass( ).getConstructor( String.class ).newInstance( value );
+                return (T) field.getType( ).getConstructor( String.class ).newInstance( value );
             }
             catch ( Exception e )
             {
