@@ -1,5 +1,6 @@
 package net.joshuahughes.storageinformation.field;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -8,10 +9,10 @@ public class Field
 {
     protected Class<?> type;
     protected String id;
-    public Field( Class<?> type, String id )
+    public Field()
     {
-        this.type = type;
-        this.id = id;
+		this.id = this.getClass().getSimpleName();
+		this.type = (Class<?>) ((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
     public Class<?> getType( )
     {

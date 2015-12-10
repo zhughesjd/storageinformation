@@ -23,7 +23,7 @@ import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.JTableHeader;
 
 import net.joshuahughes.storageinformation.operation.AddColumn;
-import net.joshuahughes.storageinformation.operation.AddDrive;
+import net.joshuahughes.storageinformation.operation.AddStorage;
 import net.joshuahughes.storageinformation.operation.Delete;
 import net.joshuahughes.storageinformation.operation.NewTable;
 import net.joshuahughes.storageinformation.operation.OpenTable;
@@ -34,7 +34,7 @@ public class Application extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	JTable table = new JTable();
-	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddDrive(),new Delete()};
+	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddStorage(),new Delete()};
 	public Application()
 	{
 		table.addMouseListener(new MouseAdapter() {
