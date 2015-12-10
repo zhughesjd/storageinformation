@@ -12,9 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
+import net.joshuahughes.storageinformation.Application;
 import net.joshuahughes.storageinformation.StorageTableModel;
 import net.joshuahughes.storageinformation.field.ComputedValueField;
 import net.joshuahughes.storageinformation.field.EditableField;
@@ -29,8 +31,7 @@ public class AddColumn extends Operation{
 	private static final String customLabel = "Custom...";
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		StorageTableModel model = (StorageTableModel) application.getTable().getModel();
+	public void actionPerformed(ActionEvent e, Application application, JTable table, StorageTableModel model) {
 		ArrayList<Object> list  = new ArrayList<Object>();
 		for(ComputedValueField<?> field : ComputedValueField.computedFields)
 			if(!model.getColumnIdentifiers( ).contains( field ))

@@ -7,14 +7,13 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
+import net.joshuahughes.storageinformation.Application;
 import net.joshuahughes.storageinformation.StorageTableModel;
 
 public class Delete extends Operation{
 	private static final long serialVersionUID = -5376384191644585428L;
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		StorageTableModel model = (StorageTableModel) application.getTable().getModel();
+	public void actionPerformed(ActionEvent e, Application application, JTable table, StorageTableModel model) {
 		int selectedRow = application.getTable().getSelectedRow();
 		int selectedColumn = application.getTable().getSelectedColumn();
 		if(selectedRow>=0)

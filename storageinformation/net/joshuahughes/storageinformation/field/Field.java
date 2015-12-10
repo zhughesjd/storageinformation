@@ -42,7 +42,6 @@ public class Field
             }
             catch ( Exception e )
             {
-                e.printStackTrace();
             }
         return null;
     }

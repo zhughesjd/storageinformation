@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Vector;
 
+import net.joshuahughes.storageinformation.Application;
 import net.joshuahughes.storageinformation.StorageTableModel;
 import net.joshuahughes.storageinformation.field.ComputedValueField;
 import net.joshuahughes.storageinformation.field.Field;
@@ -15,7 +16,7 @@ public class SaveTable extends FileIO
 {
 	private static final long serialVersionUID = -8024875966141790511L;
 	@Override
-	protected void operate(File file)
+	protected void operate(File file,Application application)
 	{
 		try {
 			if(!file.getName().endsWith(".txt")) file = new File(file.getAbsolutePath()+".txt");

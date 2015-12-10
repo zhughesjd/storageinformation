@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Vector;
 
+import net.joshuahughes.storageinformation.Application;
 import net.joshuahughes.storageinformation.StorageTableModel;
 import net.joshuahughes.storageinformation.field.EditableField;
 import net.joshuahughes.storageinformation.field.Field;
@@ -14,9 +15,9 @@ public class OpenTable extends FileIO{
 	private static final long serialVersionUID = 479013800129214119L;
 
 	@Override
-	protected void operate(File file) {
+	protected void operate(File file,Application application) {
 		try {
-			StorageTableModel model = (StorageTableModel) application.getTable().getModel();
+			StorageTableModel model = new StorageTableModel();
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line = br.readLine();
 			String[] headers = line.split("\t");
@@ -37,10 +38,14 @@ public class OpenTable extends FileIO{
 				String[] values = line.split("\t");
 				Vector<Object> vector = new Vector<Object>();
 				for(int columnIndex =0;columnIndex<model.getColumnCount();columnIndex++)
-					vector.add(Field.fromString(model.getColumnIdentifiers().get(columnIndex),values[columnIndex]));
+				{
+					String value = columnIndex<values.length?values[columnIndex]:"";
+					vector.add(Field.fromString(model.getColumnIdentifiers().get(columnIndex),value));
+				}
 				model.addRow(vector);
 			}
 			br.close();
+			application.getTable().setModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -22,6 +22,7 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.JTableHeader;
 
+import net.joshuahughes.storageinformation.field.ComputedValueField;
 import net.joshuahughes.storageinformation.operation.AddColumn;
 import net.joshuahughes.storageinformation.operation.AddStorage;
 import net.joshuahughes.storageinformation.operation.Delete;
@@ -33,7 +34,7 @@ import net.joshuahughes.storageinformation.operation.SaveTable;
 public class Application extends JFrame
 {
 	private static final long serialVersionUID = 1L;
-	JTable table = new JTable();
+	JTable table = new JTable(new StorageTableModel());
 	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddStorage(),new Delete()};
 	public Application()
 	{
@@ -89,12 +90,7 @@ public class Application extends JFrame
 		setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 		setSize( 500,500 );
 		setVisible( true );
-		setModel(new StorageTableModel());
-	}
-	private void setModel(StorageTableModel model) {
-		table.setModel(model);
-		for(Operation operation : operations)
-			operation.setApplication(this);
+		NewTable.setColumns(getModel(), ComputedValueField.computedFields);
 	}
 	private JToolBar getToolBar() {
 		JToolBar toolbar = new JToolBar();

@@ -11,16 +11,19 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.filechooser.FileSystemView;
 
+import net.joshuahughes.storageinformation.Application;
 import net.joshuahughes.storageinformation.CDUtils;
+import net.joshuahughes.storageinformation.StorageTableModel;
 
 
 public class AddStorage extends Operation{
 	private static final long serialVersionUID = -5376384191644585428L;
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e, Application application, JTable table, StorageTableModel model) {
 		JComboBox<File> rootBox = new JComboBox<>(File.listRoots());
 		rootBox.setRenderer(new ListCellRenderer<File>(){
 
