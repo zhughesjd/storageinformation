@@ -9,6 +9,11 @@ public class Field
 {
     protected Class<?> type;
     protected String id;
+    public Field(Class<?> type, String id)
+    {
+		this.id = id;
+		this.type = type;
+    }
     public Field()
     {
 		this.id = this.getClass().getSimpleName();

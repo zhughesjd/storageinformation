@@ -2,14 +2,6 @@ package net.joshuahughes.storageinformation;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import javax.swing.filechooser.FileSystemView;
  
 public class CDUtils {
  
@@ -54,37 +46,5 @@ try {
     catch(Exception e){
         e.printStackTrace();
     }
-  }
- 
-  public static void main(String[] args){
- 
-	  FileSystem fs = FileSystems.getDefault();
-	  FileSystemView fsv = FileSystemView.getFileSystemView();
-	  
-	  for (Path rootPath : fs.getRootDirectories())
-	  {
-	      try
-	      {
-	          FileStore store = Files.getFileStore(rootPath);
-	          System.out.println(rootPath + ": " + store.type());
-	          System.out.println("Drive Name: "+ rootPath);
-	          System.out.println("Description: "+fsv.getSystemTypeDescription(new File(rootPath.toString())));
-	          
-	      }
-	      catch (IOException e)
-	      {
-	          System.out.println(rootPath + ": " + "<error getting store details>");
-	      }
-          System.out.println();
-	  }  
-   javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
-               null, "Press OK to open CD", "CDUtils",
-               javax.swing.JOptionPane.DEFAULT_OPTION);
-    CDUtils.open("F:\\");
-    javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
-         null, "Press OK to close CD", "CDUtils",
-         javax.swing.JOptionPane.DEFAULT_OPTION);
-    CDUtils.close("F:\\");
- 
   }
 }
