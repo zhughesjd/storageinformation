@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 
 import net.joshuahughes.storageinformation.Application;
@@ -43,10 +44,10 @@ public abstract class Operation extends AbstractAction{
 	private static final Application getApplication(Object source) {
 		if(source instanceof Application)
 			return (Application) source;
+		if(source instanceof JPopupMenu)
+			return getApplication(((JPopupMenu)source).getInvoker());
 		if(source instanceof Component)
-		{
 			return getApplication(((Component)source).getParent());
-		}
 		return null;
 	}
 }
