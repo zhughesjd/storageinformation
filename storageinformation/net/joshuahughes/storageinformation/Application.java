@@ -28,6 +28,7 @@ import net.joshuahughes.storageinformation.operation.AddStorage;
 import net.joshuahughes.storageinformation.operation.Delete;
 import net.joshuahughes.storageinformation.operation.NewTable;
 import net.joshuahughes.storageinformation.operation.OpenTable;
+import net.joshuahughes.storageinformation.operation.OpenZiotek;
 import net.joshuahughes.storageinformation.operation.Operation;
 import net.joshuahughes.storageinformation.operation.SaveTable;
 
@@ -35,7 +36,7 @@ public class Application extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	JTable table = new JTable(new StorageTableModel());
-	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddStorage(),new Delete()};
+	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddStorage(),new Delete(),new OpenZiotek()};
 	public Application()
 	{
 		table.addMouseListener(new MouseAdapter() {
