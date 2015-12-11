@@ -2,7 +2,6 @@ package net.joshuahughes.storageinformation.operation;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -26,7 +25,7 @@ public abstract class Operation extends AbstractAction{
         putValue(Action.NAME,name);
         try
         {
-			putValue(Action.SMALL_ICON, new ImageIcon(ImageIO.read(new File("icons/"+name.toLowerCase()+".png"))));
+			putValue(Action.SMALL_ICON, new ImageIcon(ImageIO.read(Operation.class.getResourceAsStream("/icons/"+name.toLowerCase()+".png"))));
 		}
         catch (IOException e)
         {
