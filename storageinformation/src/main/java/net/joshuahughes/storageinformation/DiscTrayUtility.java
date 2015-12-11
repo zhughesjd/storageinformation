@@ -3,9 +3,9 @@ package net.joshuahughes.storageinformation;
 import java.io.File;
 import java.io.FileWriter;
  
-public class CDUtils {
+public class DiscTrayUtility {
  
-  private CDUtils() {  }
+  private DiscTrayUtility() {  }
  
   public static void open(String drive) {
  

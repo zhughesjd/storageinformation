@@ -1,7 +1,6 @@
 package net.joshuahughes.storageinformation.field;
 
 public class EditableField extends Field{
-	public static EditableField ziotekBin = new EditableField(Integer.class, "ZiotekBin");
 	 public EditableField( Class<?> type, String id )
      {
 		 super(type,id);

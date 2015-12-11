@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
@@ -18,7 +19,6 @@ import javax.swing.ListCellRenderer;
 
 import net.joshuahughes.storageinformation.Application;
 import net.joshuahughes.storageinformation.StorageTableModel;
-import net.joshuahughes.storageinformation.field.ComputedValueField;
 import net.joshuahughes.storageinformation.field.EditableField;
 import net.joshuahughes.storageinformation.field.Field;
 
@@ -29,15 +29,13 @@ public class AddColumn extends Operation{
 	 */
 	private static final long serialVersionUID = -5376384191644585428L;
 	private static final String customLabel = "Custom...";
-
+	public static LinkedHashSet<Field> columnSet = new LinkedHashSet<>();
 	@Override
 	public void actionPerformed(ActionEvent e, Application application, JTable table, StorageTableModel model) {
 		ArrayList<Object> list  = new ArrayList<Object>();
-		for(ComputedValueField<?> field : ComputedValueField.computedFields)
+		for(Field field : columnSet)
 			if(!model.getColumnIdentifiers( ).contains( field ))
 				list.add(field);
-		if(!model.getColumnIdentifiers( ).contains( EditableField.ziotekBin ))
-			list.add(EditableField.ziotekBin);
 		list.add( customLabel );
 		Object[] options = list.toArray( new Object[]{} );
 		Object option = JOptionPane.showInputDialog( null, "Choose a column", "Column Chooser", JOptionPane.PLAIN_MESSAGE, null, options, options[0] );

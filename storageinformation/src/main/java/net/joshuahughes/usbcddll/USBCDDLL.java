@@ -4,13 +4,15 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 
 public interface USBCDDLL extends Library{
+	
 	public static final int DEVICE_COMMANDOK = 0;
 	public static final int DEVICE_IDERROR = 1;
 	public static final int DEVICE_BUSY = 2;
 	public static final int DEVICE_UNKNOWERROR = 3;
-
+		
 	USBCDDLL instance = (USBCDDLL) Native.loadLibrary("USBCDDLL", USBCDDLL.class);
-    public void InitUSBCDLibrary();
+
+	public void InitUSBCDLibrary();
     public void CloseUSBCDLibrary();
     public void SetCDCallbackProc(int pointer);
     public int GetDeviceNumber();

@@ -18,7 +18,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.filechooser.FileSystemView;
 
 import net.joshuahughes.storageinformation.Application;
-import net.joshuahughes.storageinformation.CDUtils;
+import net.joshuahughes.storageinformation.DiscTrayUtility;
 import net.joshuahughes.storageinformation.StorageTableModel;
 
 
@@ -47,7 +47,7 @@ public class AddStorage extends Operation{
 			{
 				dialog.setVisible(true);
 				application.setVisible(false);
-				CDUtils.open(root.toString());
+				DiscTrayUtility.open(root.toString());
 				new Thread(){
 					public void run()
 					{
