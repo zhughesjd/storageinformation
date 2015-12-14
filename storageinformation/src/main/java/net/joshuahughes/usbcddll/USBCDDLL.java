@@ -31,10 +31,15 @@ public interface USBCDDLL extends Library{
 		instance.SetCDCallbackProc(96069);
     	System.out.println("successfully loaded USBCDDLL.dll.");
     	int id =instance.EnumDevice(0);
+    	Thread.sleep(5000);
+    	instance.USBCDLEDOFF(id);
+    	Thread.sleep(5000);
+    	instance.USBCDLEDON(id);
+    	Thread.sleep(5000);
     	System.out.println(instance.GetDeviceNumber());
     	System.out.println(id);
 
-    	instance.USBCDMoveto(id,100);
+    	instance.USBCDMoveto(id,123);
     	Thread.sleep(5000);
     	instance.USBCDGetCDUp(id);
     	Thread.sleep(2000);
