@@ -31,12 +31,13 @@ import net.joshuahughes.storageinformation.operation.OpenTable;
 import net.joshuahughes.storageinformation.operation.OpenZiotek;
 import net.joshuahughes.storageinformation.operation.Operation;
 import net.joshuahughes.storageinformation.operation.SaveTable;
+import net.joshuahughes.storageinformation.operation.ViewDirectory;
 
 public class Application extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	JTable table = new JTable(new StorageTableModel());
-	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddStorage(),new Delete(),new OpenZiotek()};
+	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddStorage(),new Delete(),new ViewDirectory(),new OpenZiotek()};
 	public Application()
 	{
 		table.addMouseListener(new MouseAdapter() {
