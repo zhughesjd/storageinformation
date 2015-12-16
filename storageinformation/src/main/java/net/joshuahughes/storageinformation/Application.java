@@ -22,6 +22,9 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.JTableHeader;
 
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.FilterSettings;
+import net.coderazzi.filters.gui.TableFilterHeader;
 import net.joshuahughes.storageinformation.field.ComputedValueField;
 import net.joshuahughes.storageinformation.operation.AddColumn;
 import net.joshuahughes.storageinformation.operation.AddStorage;
@@ -33,6 +36,8 @@ import net.joshuahughes.storageinformation.operation.Operation;
 import net.joshuahughes.storageinformation.operation.SaveTable;
 import net.joshuahughes.storageinformation.operation.ViewDirectory;
 
+import org.oxbow.swingbits.table.filter.TableRowFilterSupport;
+
 public class Application extends JFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -40,43 +45,44 @@ public class Application extends JFrame
 	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddStorage(),new Delete(),new ViewDirectory(),new OpenZiotek()};
 	public Application()
 	{
+
 		table.addMouseListener(new MouseAdapter() {
 
-	        public void mouseClicked(MouseEvent mouseEvent) {
-	            table.setColumnSelectionAllowed(false);
-	            table.setRowSelectionAllowed(true);
+			public void mouseClicked(MouseEvent mouseEvent) {
+				table.setColumnSelectionAllowed(false);
+				table.setRowSelectionAllowed(true);
 
-	            if (table.isCellSelected(table.getSelectedRow(), 0)) {
-	                table.setColumnSelectionAllowed(false);
-	                table.setRowSelectionAllowed(true);                    
-	            }
+				if (table.isCellSelected(table.getSelectedRow(), 0)) {
+					table.setColumnSelectionAllowed(false);
+					table.setRowSelectionAllowed(true);                    
+				}
 
-	        }
-	    });
+			}
+		});
 		JTableHeader columnHeader = table.getTableHeader();
-	    columnHeader.addMouseListener(new MouseAdapter() {
+		columnHeader.addMouseListener(new MouseAdapter() {
 
-	        public void mouseClicked(MouseEvent mouseEvent) {
-	            int columnPoint =  columnHeader.columnAtPoint(mouseEvent.getPoint());
+			public void mouseClicked(MouseEvent mouseEvent) {
+				int columnPoint =  columnHeader.columnAtPoint(mouseEvent.getPoint());
 
-	            int columnCursorType = columnHeader.getCursor().getType();
+				int columnCursorType = columnHeader.getCursor().getType();
 
-	            if (columnCursorType == Cursor.E_RESIZE_CURSOR)
-	                mouseEvent.consume();
-	            else {
+				if (columnCursorType == Cursor.E_RESIZE_CURSOR)
+					mouseEvent.consume();
+				else {
 
-	                if (columnPoint == 0) //the very first column header
-	                    table.selectAll(); //will select all table cells
-	                else {
-	                    table.setColumnSelectionAllowed(true);
-	                    table.setRowSelectionAllowed(false);
-	                    table.clearSelection();
-	                    table.setColumnSelectionInterval(columnPoint, columnPoint);
-	                }
+					if (columnPoint == 0) //the very first column header
+					table.selectAll(); //will select all table cells
+					else {
+						table.setColumnSelectionAllowed(true);
+						table.setRowSelectionAllowed(false);
+						table.clearSelection();
+						table.setColumnSelectionInterval(columnPoint, columnPoint);
+					}
 
-	            }
-	        }
-	    });
+				}
+			}
+		});
 		Container pane = getContentPane( );
 		pane.setLayout( new BorderLayout() );
 		pane.add(getToolBar(), BorderLayout.NORTH);
@@ -93,6 +99,10 @@ public class Application extends JFrame
 		setSize( 500,500 );
 		setVisible( true );
 		NewTable.setColumns(getModel(), ComputedValueField.computedFields);
+		TableRowFilterSupport.forTable( table ).apply( );
+		FilterSettings.dateFormat = "yyyyy-MM-ddThh:mm:ssZ";
+		new TableFilterHeader(table, AutoChoices.ENABLED);
+
 	}
 	private JToolBar getToolBar() {
 		JToolBar toolbar = new JToolBar();
@@ -108,17 +118,17 @@ public class Application extends JFrame
 	public static void main1(String[] args) throws IOException {
 		File[] roots = File.listRoots();
 		for(int i = 0; i < roots.length ; i++)
-		    System.out.println(roots[i]);
+			System.out.println(roots[i]);
 		for(File file : File.listRoots())
 		{
-			
+
 			System.out.println(FileSystemView.getFileSystemView().getSystemDisplayName (file));
 			System.out.println(FileSystemView.getFileSystemView().getSystemTypeDescription(file));
 			System.out.println("------------------");
 		}
 
 
-		
+
 		for (FileStore store : FileSystems.getDefault().getFileStores()) {
 			long total = store.getTotalSpace();
 			long used = (store.getTotalSpace() - store.getUnallocatedSpace());

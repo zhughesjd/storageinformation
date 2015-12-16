@@ -20,6 +20,7 @@ import javax.swing.filechooser.FileSystemView;
 import net.joshuahughes.storageinformation.Application;
 import net.joshuahughes.storageinformation.DiscTrayUtility;
 import net.joshuahughes.storageinformation.StorageTableModel;
+import net.joshuahughes.usbcddll.SingularlyConnectedDevice;
 
 
 public class AddStorage extends Operation{
@@ -40,7 +41,7 @@ public class AddStorage extends Operation{
 				}
 				return label;
 			}});
-		if(JOptionPane.showConfirmDialog(null, rootBox)== JOptionPane.YES_OPTION)
+		if(JOptionPane.showConfirmDialog(null, rootBox) == JOptionPane.YES_OPTION)
 		{
 			File root = (File) rootBox.getSelectedItem();
 			if(getDescription(root).startsWith("empty"))
@@ -62,7 +63,33 @@ public class AddStorage extends Operation{
 						dialog.setVisible(false);
 						application.setVisible(true);
 						if(!getDescription(root).startsWith("empty"))
-							application.getModel().addRow(root);
+							model.addRow(root);
+						DiscTrayUtility.open(root.toString());
+						int ziotekBin = getEmptyBin();
+						if(OpenZiotek.isValidBin(ziotekBin) )
+						{
+							int ziotekColumn = OpenZiotek.getZiotekColumnIndex(model);
+							if(ziotekColumn>0 && ziotekColumn<model.getColumnCount())
+							{
+								model.setValueAt(ziotekBin, model.getRowCount()-1, ziotekColumn);
+								SingularlyConnectedDevice.USBCDGetCDDown();
+								SingularlyConnectedDevice.USBCDMoveto(ziotekBin);
+							}
+						}
+					}
+
+					private int getEmptyBin() {
+						int ziotekColumn = OpenZiotek.getZiotekColumnIndex(model);
+						if(ziotekColumn>0 && ziotekColumn<model.getColumnCount())
+						{
+							for(int row = 0;row<model.getRowCount();row++)
+								for(int bin=1;bin<=150;bin++)
+								{
+									if(!model.getValueAt(row, ziotekColumn).equals(bin))
+										return bin;
+								}
+						}
+						return Integer.MIN_VALUE;
 					}
 				}.start();
 			}
@@ -73,14 +100,14 @@ public class AddStorage extends Operation{
 	public static String getDescription(File rootFile)
 	{
 		try
-	      {
-	          Files.getFileStore(rootFile.toPath());
-	          if(FileSystemView.getFileSystemView().getSystemTypeDescription(rootFile).startsWith("CD")) return "disc";
-	      }
-	      catch (IOException e)
-	      {
-	    	  return "empty disc";
-	      }
+		{
+			Files.getFileStore(rootFile.toPath());
+			if(FileSystemView.getFileSystemView().getSystemTypeDescription(rootFile).startsWith("CD")) return "disc";
+		}
+		catch (IOException e)
+		{
+			return "empty disc";
+		}
 		return "hard";
 	}
 	public class CancelOperationDialog extends JDialog
