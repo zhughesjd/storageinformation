@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileStore;
 import java.nio.file.FileSystems;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -18,14 +20,18 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.JTree;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.JTableHeader;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.FilterSettings;
 import net.coderazzi.filters.gui.TableFilterHeader;
 import net.joshuahughes.storageinformation.field.ComputedValueField;
+import net.joshuahughes.storageinformation.field.Files;
 import net.joshuahughes.storageinformation.operation.AddColumn;
 import net.joshuahughes.storageinformation.operation.AddStorage;
 import net.joshuahughes.storageinformation.operation.Delete;
@@ -42,13 +48,32 @@ public class Application extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	JTable table = new JTable(new StorageTableModel());
+	JTree tree = new JTree();
+	JScrollPane scrollPane = new JScrollPane(tree);
 	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddStorage(),new Delete(),new ViewDirectory(),new OpenZiotek()};
 	public Application()
 	{
 
+		tree.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent mouseEvent) {
+				getContentPane().validate();
+				getContentPane().repaint();
+			}
+		});
 		table.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent mouseEvent) {
+				int row = table.getSelectedRow();
+				int col = table.getSelectedColumn();
+				if(row>=0 && col>=0 && table.getColumnModel().getColumn(table.getSelectedColumn()).getHeaderValue().toString().equals(Files.class.getSimpleName()))
+				{
+					tree.setModel(new DefaultTreeModel(createRoot(table.getValueAt(row, col).toString())));
+					getContentPane().add(scrollPane, BorderLayout.EAST);
+				}
+				else
+					getContentPane().remove(scrollPane);
+				getContentPane().validate();
+				getContentPane().repaint();
 				table.setColumnSelectionAllowed(false);
 				table.setRowSelectionAllowed(true);
 
@@ -58,6 +83,7 @@ public class Application extends JFrame
 				}
 
 			}
+
 		});
 		JTableHeader columnHeader = table.getTableHeader();
 		columnHeader.addMouseListener(new MouseAdapter() {
@@ -146,4 +172,33 @@ public class Application extends JFrame
 	public StorageTableModel getModel() {
 		return (StorageTableModel) table.getModel();
 	}
+	private static DefaultMutableTreeNode createRoot(String value) {
+		  DefaultMutableTreeNode root =  new DefaultMutableTreeNode("Root");
+		  String[] array = value.split(",");
+		  for(String leafString : array)
+		  {
+			  ArrayList<String> path = new ArrayList<>(Arrays.asList(leafString.split("\\\\")));
+			  addLeaf(root,path);
+		  }
+		  return root;
+	}
+	private static void addLeaf(DefaultMutableTreeNode parent,ArrayList<String> path)
+	{
+		if(path.isEmpty()) return;
+		String childName = path.remove(0);
+		DefaultMutableTreeNode child = null;new DefaultMutableTreeNode(childName,true);
+		for(int index = 0;index<parent.getChildCount();index++)
+			if(parent.getChildAt(index).toString().equals(childName))
+			{
+				child = (DefaultMutableTreeNode) parent.getChildAt(index);
+				break;
+			}
+		if(child == null)
+		{
+			child = new DefaultMutableTreeNode(childName,true);
+			parent.add(child);
+		}
+		addLeaf(child,path);
+	}
+
 }
