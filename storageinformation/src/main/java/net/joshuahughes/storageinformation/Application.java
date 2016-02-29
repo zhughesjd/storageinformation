@@ -6,10 +6,6 @@ import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,7 +18,6 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.WindowConstants;
-import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.JTableHeader;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -140,30 +135,6 @@ public class Application extends JFrame
 	public static void main(String[] args)
 	{
 		new Application();
-	}
-	public static void main1(String[] args) throws IOException {
-		File[] roots = File.listRoots();
-		for(int i = 0; i < roots.length ; i++)
-			System.out.println(roots[i]);
-		for(File file : File.listRoots())
-		{
-
-			System.out.println(FileSystemView.getFileSystemView().getSystemDisplayName (file));
-			System.out.println(FileSystemView.getFileSystemView().getSystemTypeDescription(file));
-			System.out.println("------------------");
-		}
-
-
-
-		for (FileStore store : FileSystems.getDefault().getFileStores()) {
-			long total = store.getTotalSpace();
-			long used = (store.getTotalSpace() - store.getUnallocatedSpace());
-			long avail = store.getUsableSpace();
-			System.out.format("%-20s %12d %12d %12d%n", store, total, used, avail);
-			File file = new File("C:/");
-			System.out.println(file.getTotalSpace());
-			System.out.println(file.getName());
-		}
 	}
 	public JTable getTable()
 	{
