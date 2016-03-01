@@ -4,10 +4,10 @@ package net.joshuahughes.storageinformation;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Cursor;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -16,10 +16,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
-import javax.swing.JTree;
 import javax.swing.WindowConstants;
 import javax.swing.table.JTableHeader;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import net.coderazzi.filters.gui.AutoChoices;
@@ -43,13 +41,18 @@ public class Application extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	JTable table = new JTable(new StorageTableModel());
-	JTree tree = new JTree();
-	JScrollPane scrollPane = new JScrollPane(tree);
+	SearchTreePanel searchTree = new SearchTreePanel();
 	Operation[] operations = new Operation[]{new NewTable(),new SaveTable(),new OpenTable(),new AddColumn(),new AddStorage(),new Delete(),new ViewDirectory(),new OpenZiotek()};
 	public Application()
 	{
-
-		tree.addMouseListener(new MouseAdapter() {
+		searchTree.getField().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				getContentPane().validate();
+				getContentPane().repaint();
+			}
+		});
+		searchTree.getTree().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent mouseEvent) {
 				getContentPane().validate();
 				getContentPane().repaint();
@@ -62,11 +65,11 @@ public class Application extends JFrame
 				int col = table.getSelectedColumn();
 				if(row>=0 && col>=0 && table.getColumnModel().getColumn(table.getSelectedColumn()).getHeaderValue().toString().equals(Files.class.getSimpleName()))
 				{
-					tree.setModel(new DefaultTreeModel(createRoot(table.getValueAt(row, col).toString())));
-					getContentPane().add(scrollPane, BorderLayout.EAST);
+					searchTree.getTree().setModel(new DefaultTreeModel(SearchTreePanel.createRoot(table.getValueAt(row, col).toString())));
+					getContentPane().add(searchTree, BorderLayout.EAST);
 				}
 				else
-					getContentPane().remove(scrollPane);
+					getContentPane().remove(searchTree);
 				getContentPane().validate();
 				getContentPane().repaint();
 				table.setColumnSelectionAllowed(false);
@@ -143,33 +146,4 @@ public class Application extends JFrame
 	public StorageTableModel getModel() {
 		return (StorageTableModel) table.getModel();
 	}
-	private static DefaultMutableTreeNode createRoot(String value) {
-		  DefaultMutableTreeNode root =  new DefaultMutableTreeNode("Root");
-		  String[] array = value.split(",");
-		  for(String leafString : array)
-		  {
-			  ArrayList<String> path = new ArrayList<>(Arrays.asList(leafString.split("\\\\")));
-			  addLeaf(root,path);
-		  }
-		  return root;
-	}
-	private static void addLeaf(DefaultMutableTreeNode parent,ArrayList<String> path)
-	{
-		if(path.isEmpty()) return;
-		String childName = path.remove(0);
-		DefaultMutableTreeNode child = null;new DefaultMutableTreeNode(childName,true);
-		for(int index = 0;index<parent.getChildCount();index++)
-			if(parent.getChildAt(index).toString().equals(childName))
-			{
-				child = (DefaultMutableTreeNode) parent.getChildAt(index);
-				break;
-			}
-		if(child == null)
-		{
-			child = new DefaultMutableTreeNode(childName,true);
-			parent.add(child);
-		}
-		addLeaf(child,path);
-	}
-
 }
